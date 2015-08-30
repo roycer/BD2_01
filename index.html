@@ -66,6 +66,7 @@
 					
 					<li class="active" data-toggle="modal" data-target="#reportCliente"><a> Report Customer </a></li>
 					<li class="active" data-toggle="modal" data-target="#reportProducto"><a> Report Product </a></li>
+					<li class="active" data-toggle="modal" data-target="#reportProductoVendidos"><a> Report Product Sold </a></li>	
 					<li class="active" data-toggle="modal" data-target="#reportProductCategories"><a> Report Product Categories </a></li>
 					<li class="active" data-toggle="modal" data-target="#reportInvoices"><a> Report Invoices </a></li>
 
@@ -111,8 +112,7 @@
 			        	</table>
 
 			        	<button type="button" class="btn btn-default"  ng-click="setTotals()">Total Amount</button>
-		      			<label>Monto: {{OrdenCabecera.CostoTotal}}</label>
-		      			
+		      			<label>Monto: {{OrdenCabecera.CostoTotal}}</label>	
 					</div>
 		      	</div>
 		      <!-- FIN CONTENIDO-->
@@ -328,7 +328,7 @@
 		      
 		      <!-- TITULO-->
 		      <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Report Product Categories</h4>
+		        <h4 class="modal-title">Report Customer</h4>
 		      </div>
 		      <!-- FIN_TITULO -->
 
@@ -337,18 +337,25 @@
 		      	
 		      	<div class="form-group">
 			        
-		      		<label for="">Customer:</label>
-				    
+		      		<div class="alert alert-info" role="alert">
+				        <strong>Customer: </strong> {{customerSelect.customer_last_name  +", "+ customerSelect.customer_first_name}}<br>
+				        <strong>Phone Number: </strong> {{customerSelect.phone_number}}<br>
+				        <strong>Email Address: </strong> {{customerSelect.email_address}}<br>
+						<strong>Gender: </strong> {{customerSelect.gender}}<br>
+						<strong>Address details: </strong> {{customerSelect.address_details}}<br>
+						<strong>Other details: </strong> {{customerSelect.other_details}}<br>
+				    </div>
+
 				    <div class="input-group">
 				        <span class="input-group-addon">Search</span>
-				        <input type="text" class="form-control" placeholder="Buscar cliente" ng-model="buscar">
+				        <input type="text" class="form-control" placeholder="Search" ng-model="Search">
 				    </div>
 			    	
 			        <table class="table table-striped">
 			          <thead>
 			          <tr>
 			            <th>
-			              <a href="" ng-click="ordenarPor('customer_last_name')">customer/s</a>
+			              <a href="" ng-click="ordenarPor('customer_last_name')">customer</a>
 			              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-customer_last_name')"></span>
 			            </th>
 			            <th>phone_number</th>
@@ -356,10 +363,13 @@
 			          </tr> 
 			          </thead>
 			          <tbody>
-			          <tr ng-repeat="cliente in clientes | orderBy:ordenSeleccionado | filter:buscar">   
-			            <td>{{cliente.customer_last_name + ", " + cliente.customer_first_name  }}</td>
+			          <tr ng-repeat="cliente in clientes | orderBy:ordenSeleccionado | filter:Search">   
+			            <td>{{cliente.customer_last_name + ", " + cliente.customer_first_name}}</td>
 			            <td>{{cliente.phone_number}}</td>
 						<td>{{cliente.email_address}}</td>
+						<td>
+							<a href="" ng-click="detalles(cliente)">+</a>
+						</td>
 			          </tr>
 			          </tbody>
 			        </table>
@@ -392,29 +402,44 @@
 		      	
 		      	<div class="form-group">
 			        
-		      		<label for="">Product:</label>
-				    
+			        <div class="alert alert-info" role="alert">
+				        <strong>Product: </strong> {{productSelect.product_name}}<br>
+				        <strong>Price: </strong> {{productSelect.product_price}}<br>
+				        <strong>Category: </strong> {{productSelect.product_type_description}}<br>
+						<strong>Color: </strong> {{productSelect.product_color}}<br>
+						<strong>Size: </strong> {{productSelect.product_size}}<br>
+				    </div>
+
 				    <div class="input-group">
 				        <span class="input-group-addon">Search</span>
-				        <input type="text" class="form-control" placeholder="Search Product" ng-model="Search">
+				        <input type="text" class="form-control" placeholder="Search" ng-model="Search">
 				    </div>
 			    	
 			        <table class="table table-striped">
 			          <thead>
 			          <tr>
 			            <th>
-			              <a href="" ng-click="ordenarPor('customer_last_name')">customer/s</a>
-			              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-customer_last_name')"></span>
+			              <a href="" ng-click="ordenarPor('product_name')">product</a>
+			              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-product_name')"></span>
 			            </th>
-			            <th>phone_number</th>
-			            <th>email_address</th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('product_price')">price</a>
+			                <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-product_price')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('product_type_description')">category</a>
+			                <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-product_type_description')"></span>	
+			            </th>
 			          </tr> 
 			          </thead>
 			          <tbody>
-			          <tr ng-repeat="cliente in clientes | orderBy:ordenSeleccionado | filter:buscar">   
-			            <td>{{cliente.customer_last_name + ", " + cliente.customer_first_name  }}</td>
-			            <td>{{cliente.phone_number}}</td>
-						<td>{{cliente.email_address}}</td>
+			          <tr ng-repeat="producto in productos | orderBy:ordenSeleccionado | filter:Search">   
+			            <td>{{producto.product_name}}</td>
+			            <td>{{producto.product_price}}</td>
+						<td>{{producto.product_type_description}}</td>
+						<td>
+							<a href="" ng-click="detalles(producto)">+</a>
+						</td>
 			          </tr>
 			          </tbody>
 			        </table>
@@ -433,8 +458,203 @@
 		</div></div></div>
 		<!-- FIN MODAL6 -->
 
+		<!-- MODAL7 -->
+		<div id="reportProductCategories" class="modal fade" role="dialog" ng-controller="myCtrlProducto"><div class="modal-dialog"><div class="modal-content">
+		      
+		      <!-- TITULO-->
+		      <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Report Product Categories</h4>
+		      </div>
+		      <!-- FIN_TITULO -->
+
+		      <!-- CONTENIDO -->
+		      <div class="modal-body" >
+	      	
+		      	<div class="form-group">
+			        
+				    <div class="input-group">
+				        <span class="input-group-addon">Search</span>
+				        <input type="text" class="form-control" placeholder="Search" ng-model="Search">
+				    </div>
+
+			        <table class="table table-striped">
+			          <thead>
+			          <tr>
+			            <th>
+			              	<a href="" ng-click="ordenarPor('product_type_description')">product_type_description</a>
+			              	<span class="caret" style="cursor: pointer" ng-click="ordenarPor('-product_type_description')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('vat_rating')">vat_rating</a>
+			            	<span class="caret" style="cursor: pointer" ng-click="ordenarPor('-vat_rating')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('products')">products</a>
+			            	<span class="caret" style="cursor: pointer" ng-click="ordenarPor('-products')"></span>
+			            </th>
+			          </tr>
+			          </thead>
+			          <tbody>
+			          <tr ng-repeat="product_category in product_categories | orderBy:ordenSeleccionado | filter:Search">   
+			            <td>{{product_category.product_type_description}}</td>
+			            <td>{{product_category.vat_rating}}</td>
+						<td>{{product_category.products}}</td>
+			          </tr>
+			          </tbody>
+			        </table>
+			    </div>
+			    
+		      </div>
+		      <!-- FIN CONTENIDO-->
+		      
+		      <!-- PIE -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	  			<button type="button"  ng-click="add()" data-dismiss="modal" class="btn btn-default">Guardar</button>
+		      </div>
+		      <!-- FIN PIE -->
+
+		</div></div></div>
+		<!-- FIN MODAL7 -->
+
+		<!-- MODAL8 -->
+		<div id="reportProductoVendidos" class="modal fade" role="dialog" ng-controller="myCtrlProducto"><div class="modal-dialog"><div class="modal-content">
+		      
+		      <!-- TITULO-->
+		      <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Report Products Sold </h4>
+		      </div>
+		      <!-- FIN_TITULO -->
+
+		      <!-- CONTENIDO -->
+		      <div class="modal-body" >
+	      	
+		      	<div class="form-group">
+			        
+		      		<label for="idCategory">Category:</label>
+				    <select id="idCategory" class="form-control" ng-model="Category">
+		   				<option ng-repeat="product_sold in products_sold | unique:'product_type_description'" value="{{product_sold.product_type_description}}">{{product_sold.product_type_description}}</option>
+					</select>
+					
+					<label for="idColor">Color:</label>
+				    <select id="idColor" class="form-control" ng-model="Color">
+		   				<option ng-repeat="product_sold in products_sold" | unique:'product_color'  ng-if="product_sold.product_type_description==Category" value="{{product_sold.product_color}}">
+		   					{{product_sold.product_color}}
+		   				</option>
+					</select>
+			    	
+			        <table class="table table-striped">
+			          <thead>
+			          <tr>
+			            <th>
+			              <a href="" ng-click="ordenarPor('product_name')">product</a>
+			              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-product_name')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('sold')">sold</a>
+			              	<span class="caret" style="cursor: pointer" ng-click="ordenarPor('-sold')"></span>
+			            </th>
+			            
+			          </tr>
+			          </thead>
+			          <tbody>
+			          <tr ng-repeat="product_sold in products_sold | orderBy:ordenSeleccionado | filter:Category | filter:Color">   
+			            <td>{{product_sold.product_name}}</td>
+			            <td>{{product_sold.sold | number}}</td>	
+			          </tr>
+			          </tbody>
+			        </table>
+			    </div>
+			    
+		      </div>
+		      <!-- FIN CONTENIDO-->
+		      
+		      <!-- PIE -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	  			<button type="button"  ng-click="add()" data-dismiss="modal" class="btn btn-default">Guardar</button>
+		      </div>
+		      <!-- FIN PIE -->
+
+		</div></div></div>
+		<!-- FIN MODAL8 -->
+
+		<!-- MODAL9 -->
+		<div id="reportInvoices" class="modal fade" role="dialog" ng-controller="myCtrlFactura"><div class="modal-dialog"><div class="modal-content">
+		      
+		      <!-- TITULO-->
+		      <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Report Invoices </h4>
+		      </div>
+		      <!-- FIN_TITULO -->
+
+		      <!-- CONTENIDO -->
+		      <div class="modal-body" >
+		      	
+		      	<div class="form-group">
+			        
+		      		<div class="alert alert-info" role="alert">
+				        <strong>Customer: </strong> {{invoiceSelect.customer_first_name +" "+invoiceSelect.customer_middle_initial+", "+invoiceSelect.customer_last_name}}<br>
+				        <strong>Orden Date: </strong> {{invoiceSelect.date_order_placed}}<br>
+						<strong>Invoice Date: </strong> {{invoiceSelect.invoice_date}}<br>
+						<strong>Amount: </strong> {{invoiceSelect.total_amount}}<br>
+						<strong>Details: </strong> {{invoiceSelect.invoice_details}}<br>
+				    </div>
+
+
+				    <div class="input-group">
+				        <span class="input-group-addon">Search</span>
+				        <input type="text" class="form-control" placeholder="Search" ng-model="Search">
+				    </div>
+			    	
+			        <table class="table table-striped">
+			          <thead>
+			          <tr>
+			            <th>
+			              <a href="" ng-click="ordenarPor('customer_last_name')">customer</a>
+			              <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-customer_last_name')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('date_order_placed')">date_order_placed</a>
+			                <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-date_order_placed')"></span>
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('invoice_date')">invoice_date</a>
+			                <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-invoice_date')"></span>	
+			            </th>
+			            <th>
+			            	<a href="" ng-click="ordenarPor('total_amount')">total_amount</a>
+			                <span class="caret" style="cursor: pointer" ng-click="ordenarPor('-total_amount')"></span>	
+			            </th>
+			          </tr> 
+			          </thead>
+			          <tbody>
+			          <tr ng-repeat="invoice in invoices | orderBy:ordenSeleccionado | filter:Search">   
+			            <td>{{invoice.customer_first_name +" "+invoice.customer_middle_initial+", "+invoice.customer_last_name}}</td>
+			            <td>{{invoice.date_order_placed}}</td>
+			            <td>{{invoice.invoice_date}}</td>
+						<td>{{invoice.total_amount}}</td>
+						<td><a ng-click="detalles(invoice)">+</a></td>
+			          </tr>
+			          </tbody>
+			        </table>
+			    </div>
+			    
+		      </div>
+		      <!-- FIN CONTENIDO-->
+		      
+		      <!-- PIE -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	  			<button type="button"  ng-click="add()" data-dismiss="modal" class="btn btn-default">Guardar</button>
+		      </div>
+		      <!-- FIN PIE -->
+
+		</div></div></div>
+		<!-- FIN MODAL9 -->
+
 		<!-- Panel de ORDEN de TRABAJOS -->
-		<div class="panel panel-default" ng-controller="myCtrl">
+		<div class="panel panel-default" ng-controller="myCtrlOrden">
 			<div class="panel-heading">ORDEN DE TRABAJO</div>
 			<div class="panel-body">
 				<div class="form-group">	
@@ -448,7 +668,7 @@
 			          </thead>
 			          <tbody>
 			          <tr ng-repeat="orden in ordenes">
-			            <td>{{orden.customer | uppercase}}</td>
+			            <td>{{orden.customer_first_name + " " + orden.customer_middle_initial +", " + orden.customer_last_name  | uppercase}}</td>
 			            <td>{{orden.date_order_placed | uppercase}}</td>
 			            <td>{{orden.total_amount }}</td>
 			            
@@ -457,7 +677,6 @@
 			        </table>
 			    </div>
 			</div>
-
 
 		</div>
 		<!-- fin Panel de ORDEN de TRABAJOS -->
