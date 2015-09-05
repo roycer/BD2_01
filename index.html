@@ -16,7 +16,7 @@
 	<script src="script/main.js"></script>
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="myCtrl">
 <nav class="navbar navbar-default navbar-static-top">
 <!-- MENU -->
 <div class="container-fluid">
@@ -94,25 +94,42 @@
 		      <!-- CONTENIDO -->
 		      	<div class="modal-body"  >
 		      		<div class="form-group">
+		      			
+		      			<label for="idOrder">Order id:</label>
+					    <input type="number" class="form-control" id="idOrder"  ng-model="newOrden.order_id" >
 
 				      	<label for="idCustomer">Customer:</label>
-				      	<select id="idCustomer" class="form-control" ng-model="OrdenCabecera.auto">
-		   					<option ng-repeat="auto in autos" value="{{auto.AutPla}}">{{auto.AutPla}}</option>
+				      	<select id="idCustomer" class="form-control" ng-model="newOrden.customer_id">
+		   					<option ng-repeat="cliente in clientes" value="{{cliente.customer_id}}">{{cliente.customer_last_name + ", "+cliente.customer_first_name}}</option>
 						</select>
 						
-						<label for="idDate">Date Order Placed:</label>
-					    <input type="date" ng-model="OrdenCabecera.FechaInicio" class="form-control">
-
 						<label for="idProducto">Product:</label>
 						<table id="idProducto" class="table table-striped">
 				        	<tr ng-repeat="producto in productos">   
-					            <td>{{trabajoL.TraNom | uppercase }}</td>
-					            <td><input type="checkbox" checklist-model="List.producto" checklist-value="producto"></td>
+					            <td>{{producto.product_name}}</td>
+					            <td>{{producto.product_price}}</td>
+					            <td><input type="checkbox" checklist-model="List.productos_seleccionados" checklist-value="producto"></td>
 				          	</tr>
 			        	</table>
 
+			        	<label for="idProductSelect">Product Select:</label>
+						<table id="idProductSelect" class="table table-striped">
+				        	<tr ng-repeat="productoSelect in List.productos_seleccionados" >   
+					            <td>
+					            	<label>{{productoSelect.product_name}}:</label>
+					            </td>
+					            <td>
+					            	<input type="number" class="form-control" ng-model="newOrderItems.product_quantity[productoSelect.product_id]">
+					            </td>
+					            <td>
+					            	{{newOrderItems.order_item_cost[productoSelect.product_id] = newOrderItems.product_quantity[productoSelect.product_id]*productoSelect.product_price}}
+					            </td>					            
+				          	</tr>
+			        	</table>   
+
 			        	<button type="button" class="btn btn-default"  ng-click="setTotals()">Total Amount</button>
-		      			<label>Monto: {{OrdenCabecera.CostoTotal}}</label>	
+		      			<label>Monto: {{newOrden.total_amount}}</label>	
+		      			
 					</div>
 		      	</div>
 		      <!-- FIN CONTENIDO-->
